@@ -27,6 +27,15 @@ public class UserResponse {
         @SerializedName("img")
         private String imgUrl;
 
+        public User() {
+        }
+
+        public User(String name, String nickName, String imgUrl) {
+            this.name = name;
+            this.nickName = nickName;
+            this.imgUrl = imgUrl;
+        }
+
         public String getName() {
             return name;
         }
@@ -49,6 +58,14 @@ public class UserResponse {
 
         public void setImgUrl(String imgUrl) {
             this.imgUrl = imgUrl;
+        }
+
+        @Override
+        public String toString() {
+            return "User{" +
+                    "name='" + name + '\'' +
+                    ", nickName='" + nickName + '\'' +
+                    '}';
         }
     }
 }

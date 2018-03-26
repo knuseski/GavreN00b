@@ -1,5 +1,6 @@
 package com.knuseski.gavrenoob;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -26,7 +27,8 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     private TextView tvName;
     private TextView tvNickName;
     private ImageView ivImage;
-    private Button btnGetUser;
+
+    private Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +39,19 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         tvName = findViewById(R.id.tvName);
         tvNickName = findViewById(R.id.tvNickName);
         ivImage = findViewById(R.id.ivImage);
-        btnGetUser = findViewById(R.id.btnGetUser);
+        Button btnGetUser = findViewById(R.id.btnGetUser);
+        btnNext = findViewById(R.id.btnNext);
 
         StringRequest getUser = new StringRequest(Request.Method.GET, MyApp.GET_USER, this, Throwable::printStackTrace);
         btnGetUser.setOnClickListener(view -> {
-            btnGetUser.setEnabled(false);
+            view.setEnabled(false);
             progressBar.setVisibility(View.VISIBLE);
             VolleySingleton.getInstance().addToRequestQueue(getUser);
+        });
+
+        btnNext.setOnClickListener(view -> {
+            finish();
+            startActivity(new Intent(this, SecondActivity.class));
         });
     }
 
@@ -57,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     }
 
     private void changeUI(UserResponse.User user) {
+        btnNext.setEnabled(true);
         tvName.setText(user.getName());
         tvNickName.setText(user.getNickName());
 
@@ -69,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                ivImage.setImageResource(R.drawable.no_image);
             }
         });
     }
